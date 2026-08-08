@@ -154,11 +154,12 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 14px); position:relative; z
   color:var(--muted);
   font-weight:600;
 }
-.hero .citrus { font-size:clamp(2.6rem, 8vw, 4rem); margin-top:1.4rem; line-height:1; }
-.hero .citrus span { display:inline-block; animation:bob 3.2s ease-in-out infinite; }
-.hero .citrus span:nth-child(2){ animation-delay:.4s; }
-.hero .citrus span:nth-child(3){ animation-delay:.8s; }
-@keyframes bob { 0%,100%{ transform:translateY(0) rotate(-4deg);} 50%{ transform:translateY(-12px) rotate(5deg);} }
+.hero .hero-art {
+  display:block; margin:1.6rem auto 0;
+  width:min(400px, 78vw);
+  border-radius:24px;
+  box-shadow:0 14px 40px rgba(124,77,255,.22);
+}
 .hero .scroll-hint { margin-top:1.6rem; color:var(--muted); font-size:.85rem; opacity:.75; }
 
 /* ============ SECTION FRAME ============ */
@@ -178,19 +179,13 @@ section { padding: clamp(2rem, 5.5vw, 3.6rem) 0; }
 /* 质子球吉祥物 */
 .mascot {
   margin-left:auto; flex:none;
-  display:flex; align-items:center; gap:.25rem;
-  background:var(--card); border-radius:999px; padding:.3rem .7rem;
-  box-shadow:0 3px 10px rgba(43,43,51,.08);
+  background:var(--card); border-radius:16px; padding:.25rem;
+  box-shadow:0 3px 10px rgba(43,43,51,.1);
 }
-.mascot .ball {
-  width:26px; height:26px; border-radius:50%;
-  background:radial-gradient(circle at 32% 30%, #B388FF, var(--grape));
-  color:#fff; font-weight:800; font-size:.62rem;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 2px 8px rgba(124,77,255,.5);
-  animation:pulse 2.6s ease-in-out infinite;
+.mascot img {
+  width:60px; height:60px; border-radius:13px;
+  object-fit:cover; display:block;
 }
-.mascot .scene { font-size:1.15rem; line-height:1; }
 .lead { font-size:clamp(1.05rem, 2.6vw, 1.2rem); color:var(--muted); margin-bottom:1.2rem; }
 
 /* ============ CARDS ============ */
@@ -566,6 +561,8 @@ details.advanced .adv-body b { color:var(--ink); }
 }
 .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
 
+.ijenshot { width:100%; border-radius:14px; margin:.6rem 0 .9rem; display:block; }
+
 /* ============ REVEAL (progressive enhancement) ============ */
 .reveal { opacity:1; transform:none; }
 .js .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
@@ -581,9 +578,9 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
   .stop { min-width:34px; }
   .badge-counter { font-size:.72rem; padding:.15rem .5rem; }
   .tug .ball { width:32px; height:32px; font-size:.6rem; }
+  .hero .hero-art { width:min(340px, 82vw); }
+  .mascot img { width:48px; height:48px; }
   .ph-value { font-size:1.35rem; }
-  .hero .citrus { margin-top:1rem; }
-  .mascot { display:none; }
 }
 @media (min-width: 901px) {
   .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
@@ -620,14 +617,14 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
   <div class="badge">🧪 费曼学习法 · 第一性原理 · 讲给 11 岁的你</div>
   <h1>酸的故事<br><span class="accent">一颗质子球的冒险</span></h1>
   <p class="sub">柠檬为什么酸？胃里为什么有盐酸？可乐的气泡藏着什么秘密？<br>从一颗小到看不见的球说起……</p>
-  <div class="citrus"><span>🍋</span><span>🍊</span><span>🥤</span></div>
+  <img class="hero-art" src="img/hero.webp" alt="质子球和柠檬、橙子、汽水在一起" width="800" height="800">
   <p class="scroll-hint">▼ 往下滚，冒险开始 ▼</p>
 </header>
 
 <!-- ================= CH1 ================= -->
 <section id="ch1" data-ch="1">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:var(--lemon)">1</div><h2>先尝一口：它们为什么都"酸"？</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">🍋</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:var(--lemon)">1</div><h2>先尝一口：它们为什么都"酸"？</h2><div class="mascot"><img src="img/ch1.webp" alt="质子球泡在柠檬里" loading="lazy"></div></div>
     <p class="lead reveal">把柠檬、醋、酸奶摆在一起，尝一口——嘴里都是同一种感觉：<b>酸</b>。</p>
     <div class="card lemon reveal">
       <h3>🍋 三种食物，一个共同点</h3>
@@ -644,7 +641,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH2 ================= -->
 <section id="ch2" data-ch="2" style="background:linear-gradient(180deg,transparent,rgba(53,167,255,.06),transparent)">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:var(--sky)">2</div><h2>第一性原理①：原子是乐高积木</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">⚛️</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:var(--sky)">2</div><h2>第一性原理①：原子是乐高积木</h2><div class="mascot"><img src="img/ch2.webp" alt="质子球和原子模型" loading="lazy"></div></div>
     <p class="lead reveal">世界上所有东西——水、空气、你的身体、这颗星球——全是用<b>原子</b>拼出来的。原子就是宇宙的乐高积木。</p>
 
     <div class="card sky reveal">
@@ -675,7 +672,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH3 ================= -->
 <section id="ch3" data-ch="3">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:var(--lime)">3</div><h2>第一性原理②：酸 = 送质子球的快递员</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">📦</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:var(--lime)">3</div><h2>第一性原理②：酸 = 送质子球的快递员</h2><div class="mascot"><img src="img/ch3.webp" alt="质子球快递员抱着包裹" loading="lazy"></div></div>
     <p class="lead reveal">从"原子由质子电子组成"这个公理出发，酸的定义就自己长出来了：</p>
     <div class="card lime reveal">
       <h3>📦 酸的定义（自己推一遍）</h3>
@@ -699,7 +696,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH4 ================= -->
 <section id="ch4" data-ch="4" style="background:linear-gradient(180deg,transparent,rgba(255,201,60,.09),transparent)">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:var(--grape)">4</div><h2>第一性原理③：强酸弱酸 = 松手比赛</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">🤼</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:var(--grape)">4</div><h2>第一性原理③：强酸弱酸 = 松手比赛</h2><div class="mascot"><img src="img/ch4.webp" alt="质子球在拔河" loading="lazy"></div></div>
     <p class="lead reveal">同样是酸，为什么盐酸"凶"，柠檬酸"温柔"？<br>答案只有一句：<b>谁松手快，谁就强。</b></p>
 
     <div class="card grape reveal">
@@ -765,7 +762,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH5 ================= -->
 <section id="ch5" data-ch="5">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:var(--berry)">5</div><h2>第一性原理④：为什么酸有这么多？</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">🧱</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:var(--berry)">5</div><h2>第一性原理④：为什么酸有这么多？</h2><div class="mascot"><img src="img/ch5.webp" alt="质子球坐在乐高积木上" loading="lazy"></div></div>
     <p class="lead reveal">因为质子球是<b>通用插头</b>，而酸根是<b>无穷无尽的积木</b>。</p>
     <div class="blocks reveal">
       <div class="block plug">H⁺ 通用插头</div>
@@ -792,7 +789,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH6 ================= -->
 <section id="ch6" data-ch="6" style="background:linear-gradient(180deg,transparent,rgba(126,211,33,.08),transparent)">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:#4CAF50">6</div><h2>自然界的酸朋友（点卡片看介绍）</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">🌋</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:#4CAF50">6</div><h2>自然界的酸朋友（点卡片看介绍）</h2><div class="mascot"><img src="img/ch6.webp" alt="质子球在火山口看蓝火" loading="lazy"></div></div>
     <p class="lead reveal">大自然自己就会做酸——它们藏在水果、身体、甚至你的基因里。</p>
     <div class="grid4 reveal" id="natureGrid">
       <button class="tile" data-key="citric"><div class="emoji">🍋</div><div class="name">柠檬酸</div><div class="where">柠檬 · 橙子</div></button>
@@ -810,6 +807,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
     <p class="reveal" style="margin-top:1rem;font-weight:600;color:var(--muted)">👆 点一张卡片，弹出它的档案</p>
     <div class="card reveal" style="margin-top:1rem;border-left:5px solid #FF9800">
       <h3>🌋 冷知识：地球上最酸的湖</h3>
+      <img class="ijenshot" src="img/ijen.webp" alt="伊真火山夜间的蓝色火焰和翡翠湖" loading="lazy">
       <p>印尼<b>伊真火山</b>的火山湖是天然硫酸湖——火山喷出的 SO₂ 和 H₂S 气体溶进湖水、氧化成硫酸，pH 低到 <b>0.5</b>（柠檬汁约 2，电池酸约 1，它比电池酸还狠）。</p>
       <p style="margin-top:.5rem">🔥 夜里火山口会燃烧硫磺气体，亮起整片<b>蓝色火焰</b>。当地矿工在毒气里用湿布捂口鼻，徒手敲下黄色硫磺块背下山——一筐硫磺只值几十块。</p>
       <p style="margin-top:.5rem">🪨 还有看不见的天然硫酸：废弃矿山里的<b>黄铁矿</b>遇水+氧气会自己氧化成硫酸，让矿水流出来又酸又黄（酸性矿山排水）。石头自己就会造硫酸！</p>
@@ -820,7 +818,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH7 ================= -->
 <section id="ch7" data-ch="7">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:#607D8B">7</div><h2>人类工厂造出来的酸</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">🏭</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:#607D8B">7</div><h2>人类工厂造出来的酸</h2><div class="mascot"><img src="img/ch7.webp" alt="质子球戴着安全帽在工厂" loading="lazy"></div></div>
     <p class="lead reveal">人学会了"驯服"酸，把它们变成了工业里的超级工具。</p>
     <div class="table-scroll reveal">
       <table>
@@ -840,7 +838,7 @@ footer .sig { margin-top:.4rem; font-size:1.1rem; }
 <!-- ================= CH8 ================= -->
 <section id="ch8" data-ch="8" style="background:linear-gradient(180deg,transparent,rgba(255,92,122,.07),transparent)">
   <div class="wrap">
-    <div class="chapter reveal"><div class="num" style="background:var(--berry)">8</div><h2>化学反应剧场：酸的三样本领</h2><div class="mascot"><span class="ball">H⁺</span><span class="scene">🎭</span></div></div>
+    <div class="chapter reveal"><div class="num" style="background:var(--berry)">8</div><h2>化学反应剧场：酸的三样本领</h2><div class="mascot"><img src="img/ch8.webp" alt="质子球在舞台上表演" loading="lazy"></div></div>
 
     <div class="theater reveal">
       <div class="reaction">
