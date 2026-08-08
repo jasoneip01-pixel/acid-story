@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="description" content="酸的故事 — 一颗质子球的冒险：用第一性原理和费曼学习法，讲给 11 岁的你听。">
+<title>酸的故事 — 一颗质子球的冒险</title>
+<style>
+:root {
+  --bg: #FFF9EC;
+  --card: #FFFFFF;
+  --ink: #2B2B33;
+  --muted: #6B6B76;
+  --lemon: #FFC93C;
+  --lemon-soft: #FFF3D1;
+  --lime: #7ED321;
+  --lime-soft: #EAFAD5;
+  --grape: #7C4DFF;
+  --grape-soft: #EDE7FF;
+  --berry: #FF5C7A;
+  --berry-soft: #FFE9EE;
+  --sky: #35A7FF;
+  --sky-soft: #E3F3FF;
+  --radius: 22px;
+  --radius-sm: 14px;
+  --content: 900px;
+  --gutter: clamp(1.1rem, 4vw, 2.2rem);
+  --font: 'Segoe UI', system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
+body {
+  background:
+    radial-gradient(1100px 500px at 85% -5%, rgba(255,201,60,.28), transparent 60%),
+    radial-gradient(900px 480px at -10% 12%, rgba(126,211,33,.16), transparent 55%),
+    linear-gradient(180deg, #FFFDF6 0%, var(--bg) 40%, #FFF6DF 100%);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.85;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  min-height:100dvh;
+}
+p, h1, h2, h3, li { overflow-wrap:anywhere; }
+a { color: var(--grape); }
+.wrap { max-width: var(--content); margin:0 auto; padding: 0 var(--gutter); }
+
+/* ============ HERO ============ */
+.hero {
+  position:relative;
+  text-align:center;
+  padding: clamp(3.2rem, 10vw, 6.5rem) var(--gutter) clamp(2.4rem, 7vw, 4rem);
+  overflow:hidden;
+}
+.hero .badge {
+  display:inline-block;
+  background:var(--lemon-soft);
+  color:#8A6A00;
+  border:2px solid var(--lemon);
+  border-radius:999px;
+  padding:.3rem 1rem;
+  font-size:.85rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  margin-bottom:1.2rem;
+}
+.hero h1 {
+  font-size:clamp(2.3rem, 7vw, 4.2rem);
+  line-height:1.15;
+  letter-spacing:.01em;
+}
+.hero h1 .accent {
+  background:linear-gradient(120deg, var(--berry), var(--grape));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero .sub {
+  margin-top:1rem;
+  font-size:clamp(1.05rem, 2.6vw, 1.35rem);
+  color:var(--muted);
+  font-weight:600;
+}
+.hero .citrus { font-size:clamp(2.6rem, 8vw, 4rem); margin-top:1.4rem; line-height:1; }
+.hero .citrus span { display:inline-block; animation:bob 3.2s ease-in-out infinite; }
+.hero .citrus span:nth-child(2){ animation-delay:.4s; }
+.hero .citrus span:nth-child(3){ animation-delay:.8s; }
+@keyframes bob { 0%,100%{ transform:translateY(0) rotate(-4deg);} 50%{ transform:translateY(-12px) rotate(5deg);} }
+.hero .scroll-hint { margin-top:1.6rem; color:var(--muted); font-size:.85rem; opacity:.75; }
+
+/* ============ SECTION FRAME ============ */
+section { padding: clamp(2.2rem, 6vw, 4rem) 0; }
+.chapter {
+  display:flex; align-items:center; gap:.7rem;
+  margin-bottom:1.4rem;
+}
+.chapter .num {
+  flex:none;
+  width:2.5rem; height:2.5rem;
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:1.15rem; color:#fff;
+}
+.chapter h2 { font-size:clamp(1.45rem, 4vw, 2rem); }
+.lead { font-size:clamp(1.05rem, 2.6vw, 1.2rem); color:var(--muted); margin-bottom:1.2rem; }
+
+/* ============ CARDS ============ */
+.card {
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:clamp(1.1rem, 3vw, 1.6rem);
+  box-shadow:0 6px 24px rgba(43,43,51,.07);
+  margin-bottom:1.1rem;
+}
+.card h3 { font-size:1.15rem; margin-bottom:.5rem; }
+.card.lemon { border-top:5px solid var(--lemon); }
+.card.lime { border-top:5px solid var(--lime); }
+.card.grape { border-top:5px solid var(--grape); }
+.card.berry { border-top:5px solid var(--berry); }
+.card.sky { border-top:5px solid var(--sky); }
+
+.callout {
+  border-radius:var(--radius-sm);
+  padding:.9rem 1.1rem;
+  margin:.9rem 0;
+  font-weight:600;
+}
+.callout.warn { background:var(--berry-soft); color:#B31B3C; border:2px dashed var(--berry); }
+.callout.info { background:var(--sky-soft); color:#0B6CB0; }
+.callout.fun  { background:var(--grape-soft); color:#5B2FD6; }
+
+/* atom visual */
+.atom-stage {
+  display:flex; flex-wrap:wrap; gap:1.2rem; align-items:center; justify-content:center;
+  padding:.8rem 0 .4rem;
+}
+.atom {
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  background:var(--sky-soft);
+  border-radius:var(--radius);
+  padding:1rem 1.2rem;
+}
+.atom .label { font-size:.82rem; font-weight:700; color:#0B6CB0; }
+.nucleus {
+  position:relative; width:74px; height:74px;
+  display:flex; align-items:center; justify-content:center;
+}
+.nucleus .core {
+  width:44px; height:44px; border-radius:50%;
+  background:radial-gradient(circle at 32% 30%, #FF8A5C, var(--berry));
+  color:#fff; font-weight:800; font-size:.95rem;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(255,92,122,.4);
+  position:relative; z-index:2;
+}
+.nucleus .orbit {
+  position:absolute; inset:0; border-radius:50%;
+  border:2px dashed rgba(53,167,255,.55);
+  animation:spin 5s linear infinite;
+}
+.nucleus .electron {
+  position:absolute; top:-7px; left:50%; margin-left:-7px;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--sky);
+  box-shadow:0 0 10px rgba(53,167,255,.8);
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.arrow { font-size:2rem; font-weight:800; color:var(--grape); }
+.bare-proton {
+  width:56px; height:56px; border-radius:50%;
+  background:radial-gradient(circle at 32% 30%, #B388FF, var(--grape));
+  color:#fff; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 16px rgba(124,77,255,.5);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.08);} }
+
+/* tug-of-war */
+.tug { position:relative; text-align:center; padding:1rem 0; }
+.tug .rope { height:14px; border-radius:8px; background:linear-gradient(90deg, var(--grape) 0 49.5%, var(--lime) 50.5% 100%); margin:.6rem 0; position:relative; }
+.tug .ball {
+  position:absolute; top:-12px; width:38px; height:38px; border-radius:50%;
+  background:radial-gradient(circle at 32% 30%, #B388FF, var(--grape));
+  box-shadow:0 3px 10px rgba(124,77,255,.5);
+  left:50%; transform:translateX(-50%);
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:.7rem; font-weight:800;
+  animation:slide 4s ease-in-out infinite;
+}
+@keyframes slide {
+  0%,100% { left:8%; }
+  50% { left:86%; }
+}
+.tug .teams { display:flex; justify-content:space-between; font-weight:800; }
+.tug .teams .a { color:var(--grape); } .tug .teams .b { color:#4E8F00; }
+.legend { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.9rem; }
+.chip {
+  display:inline-flex; align-items:center; gap:.35rem;
+  background:#F3F3F7; border-radius:999px; padding:.28rem .8rem;
+  font-size:.85rem; font-weight:600;
+}
+
+/* ============ STRENGTH GRID ============ */
+.grid3 { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:1rem; margin-top:.4rem; }
+.grid3 .card { margin-bottom:0; }
+.medal { font-size:1.8rem; display:block; margin-bottom:.3rem; }
+
+/* ============ pH SLIDER ============ */
+.ph-lab { background:var(--card); border-radius:var(--radius); padding:clamp(1.1rem,3vw,1.6rem); box-shadow:0 6px 24px rgba(43,43,51,.07); }
+.ph-strip {
+  height:26px; border-radius:999px; margin:1rem 0 .6rem;
+  background:linear-gradient(90deg,
+    #FF3B30 0%, #FF6B4A 10%, #FF9500 20%, #FFCC00 30%,
+    #CDE85C 40%, #7ED321 50%, #34C759 60%, #00C7BE 70%,
+    #35A7FF 80%, #7C4DFF 90%, #B13DFF 100%);
+  position:relative;
+}
+.ph-strip .cursor {
+  position:absolute; top:-7px; width:5px; height:40px; border-radius:3px;
+  background:var(--ink); transform:translateX(-50%);
+  box-shadow:0 0 0 3px rgba(43,43,51,.15);
+}
+.ph-strip .cursor::after {
+  content:''; position:absolute; top:-9px; left:50%; transform:translateX(-50%);
+  border:7px solid transparent; border-bottom-color:var(--ink);
+}
+input[type=range].ph-range { width:100%; accent-color:var(--grape); height:34px; }
+.ph-readout { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem; }
+.ph-value { font-size:1.7rem; font-weight:800; }
+.ph-name { font-size:1.05rem; font-weight:700; padding:.15rem .7rem; border-radius:999px; color:#fff; }
+.ph-examples { margin-top:.5rem; font-size:.9rem; color:var(--muted); min-height:1.5em; }
+
+/* ============ NATURE GRID ============ */
+.grid4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:.9rem; }
+.tile {
+  background:var(--card); border-radius:var(--radius-sm);
+  padding:.95rem; text-align:center;
+  box-shadow:0 4px 14px rgba(43,43,51,.06);
+  transition:transform .2s ease, box-shadow .2s ease;
+  cursor:pointer;
+}
+.tile:hover { transform:translateY(-4px); box-shadow:0 10px 24px rgba(43,43,51,.12); }
+.tile .emoji { font-size:2rem; line-height:1.3; }
+.tile .name { font-weight:800; font-size:.95rem; margin-top:.2rem; }
+.tile .where { font-size:.78rem; color:var(--muted); margin-top:.15rem; }
+
+/* ============ REACTION THEATER ============ */
+.theater { background:var(--card); border-radius:var(--radius); padding:clamp(1.1rem,3vw,1.6rem); box-shadow:0 6px 24px rgba(43,43,51,.07); }
+.reaction { border:2px solid #EEE; border-radius:var(--radius-sm); padding:1rem; margin-top:1rem; }
+.reaction h4 { display:flex; align-items:center; gap:.5rem; font-size:1.05rem; }
+.reaction .eq { font-family:'Consolas','Menlo',monospace; background:#F6F6FA; border-radius:10px; padding:.55rem .8rem; margin:.6rem 0; font-size:.95rem; overflow-x:auto; white-space:nowrap; }
+.vulcano { position:relative; height:150px; margin-top:.6rem; border-radius:var(--radius-sm); background:linear-gradient(180deg,#FFF3D1,#FFE9B8); overflow:hidden; }
+.vulcano .cone {
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:120px; height:90px;
+  background:linear-gradient(180deg,#8D6E63,#5D4037);
+  clip-path:polygon(18% 100%, 50% 0, 82% 100%);
+}
+.vulcano .hole { position:absolute; bottom:72px; left:50%; transform:translateX(-50%); width:34px; height:20px; background:#4E342E; border-radius:6px 6px 0 0; z-index:2; }
+.vulcano .bottle {
+  position:absolute; bottom:64px; left:50%; transform:translateX(-50%);
+  width:26px; height:34px; background:linear-gradient(180deg,#FFF, #E8E8F0);
+  border-radius:5px 5px 8px 8px; z-index:2;
+  display:flex; align-items:center; justify-content:center; font-size:1rem;
+  box-shadow:inset 0 0 0 2px #DDD;
+}
+.bubble { position:absolute; border-radius:50%; background:rgba(255,255,255,.85); z-index:3; pointer-events:none; }
+.bubble.run { animation:rise 1.1s ease-out forwards; }
+@keyframes rise {
+  0% { transform:translate(0,0) scale(.5); opacity:1; }
+  100% { transform:translate(var(--dx,0),-90px) scale(1.25); opacity:0; }
+}
+.vulcano .btn {
+  position:absolute; right:.7rem; bottom:.7rem; z-index:5;
+  background:var(--berry); color:#fff; border:none;
+  border-radius:999px; padding:.5rem 1.1rem; font-size:.95rem; font-weight:800;
+  cursor:pointer; box-shadow:0 4px 12px rgba(255,92,122,.4);
+  font-family:var(--font);
+}
+.vulcano .btn:active { transform:scale(.95); }
+
+/* ============ BUILDING BLOCKS ============ */
+.blocks { display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:center; margin:.8rem 0; }
+.block {
+  background:#fff; border:3px solid var(--lemon); border-radius:14px;
+  padding:.6rem 1rem; font-weight:800; font-size:1.05rem;
+  box-shadow:0 4px 10px rgba(43,43,51,.08);
+  animation:blockIn .6s ease both;
+}
+.block.plug { background:var(--grape); border-color:var(--grape); color:#fff; }
+.block.plus { border:none; box-shadow:none; font-size:1.6rem; color:var(--muted); animation:none; }
+@keyframes blockIn { from { transform:scale(.6); opacity:0; } to { transform:scale(1); opacity:1; } }
+
+/* ============ TABLE ============ */
+.table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:var(--radius-sm); }
+table { width:100%; border-collapse:collapse; font-size:.95rem; min-width:460px; }
+th, td { padding:.7rem .8rem; text-align:left; vertical-align:top; }
+th { background:var(--grape-soft); color:#5B2FD6; font-weight:800; }
+tr:nth-child(even) td { background:#FAFAFD; }
+td sub, th sub { font-size:.75em; }
+
+/* ============ SUMMARY ============ */
+.summary { background:linear-gradient(135deg, var(--grape) 0%, #9C6BFF 100%); color:#fff; border-radius:var(--radius); padding:clamp(1.4rem,4vw,2.2rem); }
+.summary h3 { font-size:1.3rem; margin-bottom:.6rem; }
+.summary li { margin-left:1.2em; margin-bottom:.4rem; }
+.summary .test { background:rgba(255,255,255,.16); border-radius:var(--radius-sm); padding:.9rem 1.1rem; margin-top:1rem; font-weight:600; }
+.feynman { background:var(--lemon-soft); border:3px dashed var(--lemon); border-radius:var(--radius); padding:clamp(1.2rem,3.5vw,1.8rem); margin-top:1.4rem; text-align:center; }
+.feynman .q { font-size:clamp(1.05rem,2.8vw,1.3rem); font-weight:800; color:#8A6A00; }
+
+footer { text-align:center; padding:2.4rem var(--gutter) 3rem; color:var(--muted); font-size:.85rem; }
+footer .sig { margin-top:.4rem; font-size:1.1rem; }
+
+/* ============ REVEAL (progressive enhancement) ============ */
+.reveal { opacity:1; transform:none; } /* 默认可见（无 JS / 异常环境） */
+.js .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
+.js .reveal.in { opacity:1; transform:none; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 620px) {
+  .tug .ball { width:32px; height:32px; font-size:.6rem; }
+  .ph-value { font-size:1.35rem; }
+  .hero .citrus { margin-top:1rem; }
+}
+@media (min-width: 901px) {
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+  .two-col .card { margin-bottom:0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="badge">🧪 费曼学习法 · 第一性原理 · 讲给 11 岁的你</div>
+  <h1>酸的故事<br><span class="accent">一颗质子球的冒险</span></h1>
+  <p class="sub">柠檬为什么酸？胃里为什么有盐酸？可乐的气泡藏着什么秘密？<br>从一颗小到看不见的球说起……</p>
+  <div class="citrus"><span>🍋</span><span>🍊</span><span>🥤</span></div>
+  <p class="scroll-hint">▼ 往下滚，冒险开始 ▼</p>
+</header>
+
+<!-- ================= CH1 先尝一口 ================= -->
+<section>
+  <div class="wrap">
+    <div class="chapter reveal"><div class="num" style="background:var(--lemon)">1</div><h2>先尝一口：它们为什么都"酸"？</h2></div>
+    <p class="lead reveal">把柠檬、醋、酸奶摆在一起，尝一口——嘴里都是同一种感觉：<b>酸</b>。</p>
+    <div class="card lemon reveal">
+      <h3>🍋 三种食物，一个共同点</h3>
+      <p>柠檬里有<b>柠檬酸</b>，醋里有<b>乙酸</b>，酸奶里有<b>乳酸</b>。它们不是同一种东西，却都叫"酸"——因为它们在干<b>同一件事</b>。</p>
+      <p style="margin-top:.5rem">科学家说：<b>酸，就是愿意把"氢离子"送出去的东西</b>。</p>
+    </div>
+    <div class="card reveal">
+      <h3>🤔 那……氢离子是什么？</h3>
+      <p>这就是整件事的起点。要搞懂酸，先得认识一个<b>原子</b>。别怕，它只有一句话那么长 👇</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CH2 原子的秘密 ================= -->
+<section style="background:linear-gradient(180deg,transparent,rgba(53,167,255,.06),transparent)">
+  <div class="wrap">
+    <div class="chapter reveal"><div class="num" style="background:var(--sky)">2</div><h2>第一性原理①：原子是乐高积木</h2></div>
+    <p class="lead reveal">世界上所有东西——水、空气、你的身体、这颗星球——全是用<b>原子</b>拼出来的。原子就是宇宙的乐高积木。</p>
+
+    <div class="card sky reveal">
+      <h3>🔬 原子长什么样？</h3>
+      <p>每个原子中间有一个<b>原子核</b>（装着<b>质子</b>和<b>中子</b>），外面飘着<b>电子</b>。</p>
+      <div class="atom-stage">
+        <div class="atom">
+          <div class="nucleus"><div class="core">P⁺</div><div class="orbit"><div class="electron"></div></div></div>
+          <div class="label">一个原子（质子+电子）</div>
+        </div>
+        <div class="arrow">➡️</div>
+        <div class="atom" style="background:var(--grape-soft)">
+          <div class="nucleus">
+            <div class="bare-proton">H⁺</div>
+          </div>
+          <div class="label" style="color:#5B2FD6">氢离子 = 光溜溜的质子球</div>
+        </div>
+      </div>
+      <div class="callout fun" style="margin-top:1rem">🌟 <b>重点来了：</b>氢原子是最小的原子——1 个质子 + 1 个电子。它要是把电子弄丢了，就只剩下一颗<b>光溜溜的质子球（H⁺）</b>。整个酸的故事，就是这颗质子球的冒险！</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CH3 酸的定义 ================= -->
+<section>
+  <div class="wrap">
+    <div class="chapter reveal"><div class="num" style="background:var(--lime)">3</div><h2>第一性原理②：酸 = 送质子球的快递员</h2></div>
+    <p class="lead reveal">从"原子由质子电子组成"这个公理出发，酸的定义就自己长出来了：</p>
+    <div class="card lime reveal">
+      <h3>📦 酸的定义（自己推一遍）</h3>
+      <p>酸是一群<b>手里攥着质子球</b>的家伙。它们一碰到水，就大方地把质子球<b>交给水分子</b>——这个过程叫<b>电离</b>。</p>
+      <div class="eq" style="margin-top:.7rem">HA → H⁺ + A⁻&nbsp;&nbsp;&nbsp;（酸 → 质子球 + 剩下的酸根）</div>
+      <p style="margin-top:.6rem">水分子接住质子球，变成 <b>H₃O⁺</b>（水合氢离子）——水里"酸味"的真正来源。</p>
+    </div>
+    <div class="grid3 reveal">
+      <div class="card sky"><span class="medal">👅</span><h3>认酸第一招：尝</h3><p>酸味就是舌头探测到质子球。（⚠️ 实验室的酸千万不能尝！）</p></div>
+      <div class="card sky"><span class="medal">🔵</span><h3>认酸第二招：石蕊试纸</h3><p>蓝色石蕊试纸碰到酸，会<b>变红</b>——酸的神奇指纹。</p></div>
+      <div class="card sky"><span class="medal">📏</span><h3>认酸第三招：pH</h3><p>pH 小于 7 是酸，等于 7 是中性，大于 7 是碱。数值越小酸得越狠。</p></div>
+    </div>
+    <div class="callout warn reveal">🚫 <b>安全第一：</b>故事里的酸可以闻、可以看，但<b>实验室里的浓酸会烧伤皮肤</b>。真正的实验，等长大后在老师指导下做！</div>
+  </div>
+</section>
+
+<!-- ================= CH4 强弱 ================= -->
+<section style="background:linear-gradient(180deg,transparent,rgba(255,201,60,.09),transparent)">
+  <div class="wrap">
+    <div class="chapter reveal" id="ch4"><div class="num" style="background:var(--grape)">4</div><h2>第一性原理③：强酸弱酸 = 松手比赛</h2></div>
+    <p class="lead reveal">同样是酸，为什么盐酸"凶"，柠檬酸"温柔"？<br>答案只有一句：<b>谁松手快，谁就强。</b></p>
+
+    <div class="card grape reveal">
+      <h3>🤼 质子球争夺战</h3>
+      <p>酸根死死攥着质子球，水在另一头拼命抢。酸根<b>攥得越紧</b> → 质子球交不出去 → <b>弱酸</b>；<b>松手越快</b> → 质子球全交出去 → <b>强酸</b>。</p>
+      <div class="tug" id="tug">
+        <div class="teams"><span class="a">🟣 酸根（攥着不放）</span><span class="b">💧 水（使劲抢）</span></div>
+        <div class="rope"><div class="ball">H⁺</div></div>
+        <p style="font-size:.85rem;color:var(--muted)">质子球在拔河绳上滑来滑去——滑向水那边越多，酸越强。</p>
+      </div>
+    </div>
+
+    <h3 style="margin:1.3rem 0 .5rem" class="reveal">⚖️ 三场比赛决定松手快慢</h3>
+    <div class="grid3 reveal">
+      <div class="card berry"><span class="medal">🏀</span><h3>比赛①：抢球能力</h3><p>酸根越"爱抢电子"，就越能把质子球里的电子拽走，质子球就越待不住。</p></div>
+      <div class="card berry"><span class="medal">🪢</span><h3>比赛②：绳子长度</h3><p>质子球和酸根之间那根"键"越长越松。原子越大，键越长，越容易断。</p></div>
+      <div class="card berry"><span class="medal">🧘</span><h3>比赛③：交球后的淡定</h3><p>交出质子球后，剩下的酸根越稳定（电荷分散开），就越愿意交球。</p></div>
+    </div>
+
+    <div class="card reveal" style="margin-top:1.1rem">
+      <h3>🥷 反直觉彩蛋：氟最小却最"抠门"</h3>
+      <p>卤素家族里：<b>HI &gt; HBr &gt; HCl &gt; HF</b>（最强到最弱）。</p>
+      <p style="margin-top:.4rem">碘（I）原子最大 → 键最长最松 → 松手最快 → <b>HI 最强</b>。<br>氟（F）原子最小 → 键最短攥得最紧 → <b>HF 反而是弱酸</b>！</p>
+      <p style="margin-top:.4rem;color:var(--muted);font-size:.9rem">看，不是"含什么元素"决定强弱，是<b>结构和松紧</b>决定。元素大小只是背后的一只手。</p>
+    </div>
+
+    <div class="two-col reveal" style="margin-top:1.1rem">
+      <div class="card berry">
+        <h3>💪 强酸天团（100% 交球）</h3>
+        <p>盐酸 HCl · 硫酸 H₂SO₄ · 硝酸 HNO₃ · 氢溴酸 HBr · 氢碘酸 HI</p>
+        <p style="color:var(--muted);font-size:.9rem">进水里就全放手，质子球全部交出。</p>
+      </div>
+      <div class="card lemon">
+        <h3>🍬 弱酸阵营（只交一点）</h3>
+        <p>醋酸 CH₃COOH · 柠檬酸 · 碳酸 H₂CO₃ · 乳酸</p>
+        <p style="color:var(--muted);font-size:.9rem">大部分质子球还攥在手里，所以温和、可以吃。</p>
+      </div>
+    </div>
+
+    <!-- pH 滑块 -->
+    <div class="ph-lab reveal" style="margin-top:1.1rem" id="phLab">
+      <h3>🎛️ 动手玩：pH 实验室</h3>
+      <p style="font-size:.9rem;color:var(--muted)">拖动滑块，看看不同 pH 的"酸度世界"长什么样：</p>
+      <div class="ph-strip" id="phStrip"><div class="cursor" id="phCursor" style="left:30%"></div></div>
+      <input type="range" class="ph-range" id="phRange" min="0" max="14" step="0.1" value="3">
+      <div class="ph-readout">
+        <span class="ph-value" id="phValue">pH 3</span>
+        <span class="ph-name" id="phName" style="background:var(--berry)">酸性</span>
+      </div>
+      <p class="ph-examples" id="phExamples">🍋 柠檬汁 · 醋 —— 酸！但还能入口</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CH5 为什么这么多 ================= -->
+<section>
+  <div class="wrap">
+    <div class="chapter reveal"><div class="num" style="background:var(--berry)">5</div><h2>第一性原理④：为什么酸有这么多？</h2></div>
+    <p class="lead reveal">因为质子球是<b>通用插头</b>，而酸根是<b>无穷无尽的积木</b>。</p>
+    <div class="blocks reveal">
+      <div class="block plug">H⁺ 通用插头</div>
+      <div class="block plus">+</div>
+      <div class="block">Cl⁻</div>
+      <div class="block plus">=</div>
+      <div class="block" style="border-color:var(--grape);color:var(--grape)">盐酸 HCl</div>
+    </div>
+    <div class="blocks reveal">
+      <div class="block plug">H⁺</div>
+      <div class="block plus">+</div>
+      <div class="block">柠檬酸根</div>
+      <div class="block plus">=</div>
+      <div class="block" style="border-color:var(--grape);color:var(--grape)">柠檬酸 🍋</div>
+    </div>
+    <div class="card reveal">
+      <h3>🧱 插头只有一个，积木千千万</h3>
+      <p>碳、氮、氧、硫、磷、氯……这些原子（再加上不同数量、不同结构）能拼出<b>成千上万种酸根</b>。一个通用插头 × 千万种积木 = <b>千万种酸</b>。</p>
+      <p style="margin-top:.5rem">就像乐高：同一块 2×4 砖能搭出城堡，也能搭出飞船——积木没变，组合无穷。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CH6 自然界的酸 ================= -->
+<section style="background:linear-gradient(180deg,transparent,rgba(126,211,33,.08),transparent)">
+  <div class="wrap">
+    <div class="chapter reveal" id="ch6"><div class="num" style="background:#4CAF50">6</div><h2>自然界的酸朋友（点卡片看介绍）</h2></div>
+    <p class="lead reveal">大自然自己就会做酸——它们藏在水果、身体、甚至你的基因里。</p>
+    <div class="grid4 reveal" id="natureGrid">
+      <div class="tile" data-info="柑橘类水果的酸味担当，让柠檬橘子精神一振"><div class="emoji">🍋</div><div class="name">柠檬酸</div><div class="where">柠檬 · 橙子</div></div>
+      <div class="tile" data-info="苹果、山楂里的酸，名字就直接叫'苹果酸'"><div class="emoji">🍎</div><div class="name">苹果酸</div><div class="where">苹果 · 山楂</div></div>
+      <div class="tile" data-info="醋的酸味！是细菌把酒'发酵'变出来的"><div class="emoji">🍶</div><div class="name">乙酸（醋酸）</div><div class="where">醋</div></div>
+      <div class="tile" data-info="酸奶的酸，也是你剧烈运动后肌肉酸痛的元凶"><div class="emoji">🥛</div><div class="name">乳酸</div><div class="where">酸奶 · 肌肉</div></div>
+      <div class="tile" data-info="汽水的泡泡！二氧化碳溶进水里就变成碳酸"><div class="emoji">🥤</div><div class="name">碳酸</div><div class="where">汽水 · 气泡</div></div>
+      <div class="tile" data-info="你的胃里就装着盐酸！专门把肉和菜分解消化"><div class="emoji">🫀</div><div class="name">盐酸（胃酸）</div><div class="where">胃里</div></div>
+      <div class="tile" data-info="蚂蚁和蜜蜂蜇人时注入的酸，就是它让你又疼又痒"><div class="emoji">🐜</div><div class="name">蚁酸（甲酸）</div><div class="where">蚂蚁 · 蜜蜂</div></div>
+      <div class="tile" data-info="菠菜、大黄里都有，吃多了会影响钙吸收"><div class="emoji">🥬</div><div class="name">草酸</div><div class="where">菠菜 · 大黄</div></div>
+      <div class="tile" data-info="你尿液里排出去的废物，名字就叫尿酸"><div class="emoji">💧</div><div class="name">尿酸</div><div class="where">身体代谢</div></div>
+      <div class="tile" data-info="最酷的：DNA 全名是'脱氧核糖核酸'——生命的遗传密码本身就是酸！"><div class="emoji">🧬</div><div class="name">核酸</div><div class="where">DNA · 每个细胞</div></div>
+    </div>
+    <p class="reveal" id="natureInfo" style="margin-top:1rem;font-weight:600;color:var(--muted);min-height:1.6em">👆 点一张卡片试试</p>
+  </div>
+</section>
+
+<!-- ================= CH7 人类工厂 ================= -->
+<section>
+  <div class="wrap">
+    <div class="chapter reveal"><div class="num" style="background:#607D8B">7</div><h2>人类工厂造出来的酸</h2></div>
+    <p class="lead reveal">人学会了"驯服"酸，把它们变成了工业里的超级工具。</p>
+    <div class="table-scroll reveal">
+      <table>
+        <tr><th>酸</th><th>外号 / 用途</th><th>一句话</th></tr>
+        <tr><td>硫酸 H₂SO₄</td><td>"工业之母"</td><td>化肥、汽车电瓶里全是它，产量是化学工业的体温计</td></tr>
+        <tr><td>盐酸 HCl</td><td>清洁工</td><td>除锈、清洗金属，实验室常客</td></tr>
+        <tr><td>硝酸 HNO₃</td><td>肥料 & 火箭</td><td>做化肥，也是火箭燃料的原料</td></tr>
+        <tr><td>磷酸 H₃PO₄</td><td>可乐的秘密</td><td>可乐那股"扎嘴"的酸味就是它，也是重要肥料</td></tr>
+        <tr><td>氢氟酸 HF</td><td>玻璃雕刻师</td><td>能腐蚀玻璃——但它极危险，沾到皮肤会穿透骨头</td></tr>
+        <tr><td>王水</td><td>黄金溶解者</td><td>浓盐酸+浓硝酸（3:1）混合，连黄金都能溶掉！</td></tr>
+      </table>
+    </div>
+    <div class="callout fun reveal" style="margin-top:1rem">👑 二战时有个真实故事：丹麦科学家为了不让纳粹抢走诺贝尔金质奖章，把奖章<b>溶进王水里</b>藏起来，战后又把金子还原、重新铸成奖章！</div>
+  </div>
+</section>
+
+<!-- ================= CH8 酸的本领 ================= -->
+<section style="background:linear-gradient(180deg,transparent,rgba(255,92,122,.07),transparent)">
+  <div class="wrap">
+    <div class="chapter reveal"><div class="num" style="background:var(--berry)">8</div><h2>化学反应剧场：酸的三样本领</h2></div>
+
+    <div class="theater reveal">
+      <div class="reaction">
+        <h4>🤝 本领一：中和 —— 酸和碱握手言和</h4>
+        <p style="font-size:.9rem">酸（H⁺）+ 碱（OH⁻）→ 盐 + 水。胃酸太多？吃片胃药（碱）——酸碱一见面就中和成水。</p>
+        <div class="eq">HCl + NaOH → NaCl + H₂O</div>
+      </div>
+      <div class="reaction">
+        <h4>🫧 本领二：酸 + 活泼金属 → 氢气</h4>
+        <p style="font-size:.9rem">铁钉泡进醋里，表面冒出一串小气泡——那就是氢气。</p>
+        <div class="eq">Zn + 2HCl → ZnCl₂ + H₂↑</div>
+      </div>
+      <div class="reaction">
+        <h4>🌋 本领三：酸 + 小苏打 → 二氧化碳（你玩过的火山实验！）</h4>
+        <p style="font-size:.9rem">醋（乙酸）+ 小苏打（碳酸氢钠）疯狂冒泡——气泡就是 CO₂。点下面的按钮喷一次：</p>
+        <div class="eq">CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑</div>
+        <div class="vulcano" id="vulcano">
+          <div class="cone"></div>
+          <div class="hole"></div>
+          <div class="bottle">🧪</div>
+          <button class="btn" id="eruptBtn">🌋 喷发！</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SUMMARY ================= -->
+<section>
+  <div class="wrap">
+    <div class="summary reveal">
+      <h3>🎬 故事讲完了，用一句话串起来</h3>
+      <ul>
+        <li><b>公理：</b>万物由原子拼成，氢原子丢电子 = 光溜溜的质子球（H⁺）。</li>
+        <li><b>定义：</b>酸 = 愿意把质子球交给水的快递员。</li>
+        <li><b>强弱：</b>酸根攥得越紧越弱、松手越快越强——看抢电子、键长、酸根稳不稳。</li>
+        <li><b>多样：</b>通用插头 H⁺ × 无穷酸根积木 = 千万种酸。</li>
+        <li><b>本领：</b>中和、放氢气、放 CO₂——酸不是坏蛋，是化学世界的搬运工。</li>
+      </ul>
+      <div class="test">🏆 <b>费曼终极考验：</b>合上页面，你能把"什么是酸"讲给弟弟妹妹听吗？能讲明白，才算真懂！</div>
+    </div>
+    <div class="feynman reveal">
+      <div class="q">"如果你不能简单地解释它，你就是还没真正理解它。"<br>—— 理查德·费曼</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>酸的故事 · 一颗质子球的冒险 🧪</p>
+  <p class="sig">给牧童 —— 继续问"为什么"，世界会越来越好玩 🦞</p>
+</footer>
+
+<script>
+/* 渐进增强：JS 可用时启用滚动渐显 */
+document.documentElement.classList.add('js');
+
+/* reveal on scroll */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* 安全网：任何情况下 4 秒后内容全部可见（防 IO 失效丢内容） */
+setTimeout(() => {
+  document.querySelectorAll('.reveal:not(.in)').forEach(el => el.classList.add('in'));
+}, 4000);
+
+/* 自检/降级参数：?showall 直接显示全部（真实用户不感知） */
+if (new URLSearchParams(location.search).has('showall')) {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+}
+
+/* pH slider */
+const range = document.getElementById('phRange');
+const cursor = document.getElementById('phCursor');
+const valueEl = document.getElementById('phValue');
+const nameEl = document.getElementById('phName');
+const exEl = document.getElementById('phExamples');
+const strip = document.getElementById('phStrip');
+const examples = {
+  0: '💀 王水级别——能溶黄金，碰到皮肤就完蛋',
+  1: '⚡ 电池里的硫酸，超级危险',
+  2: '🍋 柠檬汁 · 胃酸，酸得厉害',
+  3: '🍊 橙汁 · 醋，酸但能入口',
+  4: '🍅 番茄 · 可乐（磷酸），温和的酸',
+  5: '☕ 咖啡 · 雨水，淡淡酸',
+  6: '🥛 牛奶，几乎感觉不到酸',
+  7: '💧 纯水，不酸也不碱——中性！',
+  8: '🥚 蛋清 · 海水，开始偏碱了',
+  9: '🧼 肥皂水 · 牙膏，碱性',
+  10: '🧴 洗洁精，碱性',
+  11: '🧽 氨水，很强的碱',
+  12: '🧪 石灰水，强碱',
+  13: '🔥 烧碱（NaOH），危险强碱',
+  14: '🧨 超强碱，腐蚀性拉满'
+};
+function grade(pH) {
+  if (pH < 7) { return { name: '酸性', color: 'var(--berry)' }; }
+  if (pH > 7) { return { name: '碱性', color: 'var(--sky)' }; }
+  return { name: '中性', color: '#6B6B76' };
+}
+function idx(pH) {
+  const keys = Object.keys(examples).map(Number);
+  let best = keys[0];
+  for (const k of keys) { if (Math.abs(k - pH) < Math.abs(best - pH)) best = k; }
+  return best;
+}
+function updatePH(v) {
+  const pH = parseFloat(v);
+  const pct = (pH / 14) * 100;
+  cursor.style.left = pct + '%';
+  valueEl.textContent = 'pH ' + pH.toFixed(1);
+  const g = grade(pH);
+  nameEl.textContent = g.name;
+  nameEl.style.background = g.color;
+  const ex = examples[idx(pH)];
+  exEl.textContent = ex;
+  const hue = 240 - (pH / 14) * 240;
+  valueEl.style.color = 'hsl(' + hue + ', 75%, 45%)';
+}
+range.addEventListener('input', () => updatePH(range.value));
+updatePH(range.value);
+
+/* nature tiles */
+document.querySelectorAll('#natureGrid .tile').forEach(t => {
+  t.addEventListener('click', () => {
+    const info = document.getElementById('natureInfo');
+    info.innerHTML = '🔍 ' + t.querySelector('.name').textContent + '：' + t.dataset.info;
+    info.style.color = 'var(--ink)';
+  });
+});
+
+/* volcano */
+const vulcano = document.getElementById('vulcano');
+const btn = document.getElementById('eruptBtn');
+btn.addEventListener('click', () => {
+  for (let i = 0; i < 14; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const size = 8 + Math.random() * 14;
+    b.style.width = size + 'px';
+    b.style.height = size + 'px';
+    b.style.left = (50 + (Math.random() * 44 - 22)) + '%';
+    b.style.bottom = '70px';
+    b.style.setProperty('--dx', (Math.random() * 60 - 30) + 'px');
+    b.style.animationDelay = (Math.random() * .35) + 's';
+    vulcano.appendChild(b);
+    setTimeout(() => b.remove(), 1600);
+  }
+});
+</script>
+</body>
+</html>
